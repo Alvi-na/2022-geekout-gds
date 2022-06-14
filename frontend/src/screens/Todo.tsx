@@ -19,7 +19,7 @@ export type TodoItemProps = {
 };
 
 function TodoItem(props: TodoItemProps) {
-  /* create state here */
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const updateTodoItem = useCallback(async () => {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
@@ -35,8 +35,8 @@ function TodoItem(props: TodoItemProps) {
 
   return (<>
     <tr>
-      <td>{/* insert checkbox here */}</td>
-      <td width={'100%'}>{props.description}</td>
+      <td>{<input type = "checkbox" ></input>}</td>
+      <td width={'100%'}> {props.description}</td>
     </tr>
   </>
   );
@@ -57,7 +57,8 @@ function Todo(props: TodoProps) {
 
   const onRefreshClicked = useCallback(async () => {
     console.log('Refresh button clicked');
-    /* refresh todos here */
+    await populateTodos();
+    console.log('todoList updated');
   }, [populateTodos]);
 
   useEffect(() => {
@@ -98,7 +99,14 @@ function Todo(props: TodoProps) {
                       <Button isPrimary isLoading={false}>Submit</Button>
                     </Col>
                     <Col>
-                      {/* insert button here */}
+                      {<Button type="button" isOutline onClick={onRefreshClicked}> //= useCallback(async () => {
+                          //console.log('Refresh button clicked');
+                          }, []);
+                        }
+                        <Button type ="button" isOutline> 
+                        <span className='sgds-icon sgds-icon-refresh'/>
+                        </Button>
+                    
                     </Col>
                   </Row>
                 </div>
